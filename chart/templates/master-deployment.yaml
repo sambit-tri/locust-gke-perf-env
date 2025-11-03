@@ -1,1 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-master
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount.master }}
+  selector:
+    matchLabels:
+      app: locust
+      role: master
+  template:
+    metadata:
+      labels:
+        app: locust
+        role: master
+    spec:
+      containers:
+        - name: locust-master
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["locust", "-f", "/mnt/locust/locustfile.py", "--master"]
+          ports:
+            - containerPort: 8089
+            - containerPort: 5557
+            - containerPort: 5558
+          volumeMounts:
+            - name: locust-scripts
+              mountPath: /mnt/locust
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: locust-scripts
+          configMap:
+            name: locust-scripts
 
