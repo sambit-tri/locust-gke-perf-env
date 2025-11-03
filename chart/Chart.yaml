@@ -1,4 +1,7 @@
 apiVersion: v2
 name: locust
+description: Locust master-worker Helm chart for GKE performance testing
+type: application
 version: 0.1.0
-description: Locust performance testing Helm chart for GKE
+appVersion: "2.29.0"
+
