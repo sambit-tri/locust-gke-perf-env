@@ -1,1 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-worker
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount.worker }}
+  selector:
+    matchLabels:
+      app: locust
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: locust
+        role: worker
+    spec:
+      containers:
+        - name: locust-worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["locust", "-f", "/mnt/locust/locustfile.py", "--worker", "--master-host=locust-master"]
+          volumeMounts:
+            - name: locust-scripts
+              mountPath: /mnt/locust
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: locust-scripts
+          configMap:
+            name: locust-scripts
 
