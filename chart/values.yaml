@@ -1,1 +1,16 @@
+namespace: ordr-order-testing
+replicaCount:
+  master: 1
+  worker: 2
+image:
+  repository: locustio/locust
+  tag: latest
+host: "https://blazemeter.com"
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
 
