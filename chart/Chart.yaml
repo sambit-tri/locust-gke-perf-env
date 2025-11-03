@@ -1,0 +1,4 @@
+apiVersion: v2
+name: locust
+version: 0.1.0
+description: Locust performance testing Helm chart for GKE
