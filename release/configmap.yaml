@@ -13,5 +13,7 @@ data:
 
         @task
         def open_homepage(self):
-            # Don't add "/" — this calls the base URL directly
-            self.client.get("", name="Blazemeter Homepage")
+            # Disable SSL verification
+            with self.client.get("", name="Blazemeter Homepage", verify=False, catch_response=True) as response:
+                if response.status_code != 200:
+                    response.failure(f"Unexpected status code: {response.status_code}")
