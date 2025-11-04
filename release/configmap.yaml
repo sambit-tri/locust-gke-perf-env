@@ -13,5 +13,10 @@ data:
 
         @task
         def open_homepage(self):
-            self.client.get("/")
+            # Give this request a transaction name for reporting
+            self.client.get("/", name="Blazemeter Homepage")
 
+        @task
+        def open_docs(self):
+            # Another example with a custom transaction name
+            self.client.get("/docs", name="Blazemeter Docs Page")
